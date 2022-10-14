@@ -2,9 +2,9 @@
 
 namespace Bekwoh\LaravelMediaSecure;
 
+use Bekwoh\LaravelMediaSecure\Commands\LaravelMediaSecureCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Bekwoh\LaravelMediaSecure\Commands\LaravelMediaSecureCommand;
 
 class LaravelMediaSecureServiceProvider extends PackageServiceProvider
 {

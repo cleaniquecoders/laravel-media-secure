@@ -2,9 +2,9 @@
 
 namespace Bekwoh\LaravelMediaSecure\Tests;
 
+use Bekwoh\LaravelMediaSecure\LaravelMediaSecureServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Bekwoh\LaravelMediaSecure\LaravelMediaSecureServiceProvider;
 
 class TestCase extends Orchestra
 {
