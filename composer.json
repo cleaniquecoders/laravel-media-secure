@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "bekwoh/laravel-media-secure",
+    "description": "Securely display Media",
     "keywords": [
-        ":vendor_name",
+        "bekwoh",
         "laravel",
-        ":package_slug"
+        "laravel-media-secure"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/bekwoh/laravel-media-secure",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Nasrul Hazim Bin Mohamad",
+            "email": "nasrulhazim.m@gmail.com",
             "role": "Developer"
         }
     ],
@@ -30,18 +30,17 @@
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^1.0",
         "phpstan/phpstan-phpunit": "^1.0",
-        "phpunit/phpunit": "^9.5",
-        "spatie/laravel-ray": "^1.26"
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Bekwoh\\LaravelMediaSecure\\": "src",
+            "Bekwoh\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Bekwoh\\LaravelMediaSecure\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +60,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Bekwoh\\LaravelMediaSecure\\LaravelMediaSecureServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "LaravelMediaSecure": "Bekwoh\\LaravelMediaSecure\\Facades\\LaravelMediaSecure"
             }
         }
     },
