@@ -1,6 +1,7 @@
 <?php
 
 use Bekwoh\LaravelMediaSecure\Enums\MediaAccess;
+use Bekwoh\LaravelMediaSecure\LaravelMediaSecure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,7 @@ beforeEach(function () {
         ]);
     }
 
+    LaravelMediaSecure::routes();
     Route::get('/login', fn () => 'login')->name('login');
 });
 
