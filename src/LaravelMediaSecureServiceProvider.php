@@ -2,7 +2,6 @@
 
 namespace Bekwoh\LaravelMediaSecure;
 
-use Bekwoh\LaravelMediaSecure\Commands\LaravelMediaSecureCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -17,9 +16,7 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-media-secure')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-media-secure_table')
-            ->hasCommand(LaravelMediaSecureCommand::class);
+            ->hasConfigFile('laravel-media-secure')
+            ->hasRoute('web');
     }
 }
