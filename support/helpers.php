@@ -26,3 +26,10 @@ if (! function_exists('get_download_media_url')) {
         return get_media_url(MediaAccess::download(), $media);
     }
 }
+
+if (! function_exists('get_stream_media_url')) {
+    function get_stream_media_url(Media $media)
+    {
+        return get_media_url(MediaAccess::stream(), $media);
+    }
+}

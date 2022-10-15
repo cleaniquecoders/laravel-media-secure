@@ -25,6 +25,21 @@ use Bekwoh\LaravelMediaSecure\LaravelMediaSecure;
 LaravelMediaSecure::routes();
 ```
 
+Then add the following in your `app/Providers/AuthServiceProvider.php`:
+
+```php
+/**
+ * Register any authentication / authorization services.
+ *
+ * @return void
+ */
+public function boot()
+{
+    $this->policies[config('laravel-media-secure.model')] = config('laravel-media-secure.policy');
+    $this->registerPolicies();
+}
+```
+
 You can publish the config file with:
 
 ```bash
@@ -60,6 +75,10 @@ $view_url = get_view_media_url($media);
 // Get the download URL
 // https://your-app.com/media/download/some-random-uuid
 $download_url = get_download_media_url($media);
+
+// Get the stream URL
+// https://your-app.com/media/stream/some-random-uuid
+$stream_url = get_stream_media_url($media);
 ```
 
 ## Testing

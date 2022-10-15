@@ -24,7 +24,10 @@ class MediaController extends Controller
         abort_if($request->user()->cannot($type, $media), 403, 'Unauthorized Access.');
 
         return match ($type) {
-            MediaAccess::view()->value => response()->file($media->getPath()),
+            MediaAccess::stream()->value => response()->streamDownload(function () use ($media) {
+                echo file_get_contents($media->getPath());
+            }),
+            MediaAccess::view()->value => response()->file($media->getPath),
             MediaAccess::download()->value => response()->download($media->getPath()),
             default => abort(422, 'Invalid media request')
         };

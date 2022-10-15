@@ -2,7 +2,6 @@
 
 namespace Bekwoh\LaravelMediaSecure;
 
-use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -18,14 +17,5 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-media-secure')
             ->hasConfigFile('laravel-media-secure');
-    }
-
-    public function packageBooted()
-    {
-        $model = config('laravel-media-secure.model');
-        $policy = config('laravel-media-secure.policy');
-        if (! is_null(Gate::getPolicyFor($model))) {
-            Gate::policy($model, $policy);
-        }
     }
 }

@@ -6,6 +6,7 @@ use Spatie\Enum\Laravel\Enum;
 
 /**
  * @method static self view()
+ * @method static self stream()
  * @method static self download()
  */
 class MediaAccess extends Enum
