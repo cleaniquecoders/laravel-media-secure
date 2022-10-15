@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## 1.0.4 - 2022-10-15
+
+**Full Changelog**: https://github.com/bekwoh/laravel-media-secure/compare/1.0.3...1.0.4
+
 ## 1.0.3 - 2022-10-15
 
 **Full Changelog**: https://github.com/bekwoh/laravel-media-secure/compare/1.0.2...1.0.3
