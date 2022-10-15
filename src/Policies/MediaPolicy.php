@@ -38,7 +38,7 @@ class MediaPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $userq
+     * @param  \Illuminate\Foundation\Auth\User  $user
      * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media  $media
      * @return \Illuminate\Auth\Access\Response|bool
      */
