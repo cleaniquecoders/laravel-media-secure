@@ -70,7 +70,7 @@ it('can download media if media do not exist', function () {
         ]))->assertStatus(200);
 })->group('download')->skip('The test unable to add media at the moment.');
 
-it('has helpers', function() {
+it('has helpers', function () {
     assertTrue(function_exists('get_media_url'));
     assertTrue(function_exists('get_view_media_url'));
     assertTrue(function_exists('get_download_media_url'));
