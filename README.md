@@ -17,6 +17,14 @@ You can install the package via composer:
 composer require bekwoh/laravel-media-secure
 ```
 
+Add the following in your route file:
+
+```php
+use Bekwoh\LaravelMediaSecure\LaravelMediaSecure;
+
+LaravelMediaSecure::routes();
+```
+
 You can publish the config file with:
 
 ```bash

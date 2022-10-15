@@ -17,8 +17,7 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-media-secure')
-            ->hasConfigFile('laravel-media-secure')
-            ->hasRoute('web');
+            ->hasConfigFile('laravel-media-secure');
     }
 
     public function packageBooted()
