@@ -39,7 +39,10 @@
         "psr-4": {
             "Bekwoh\\LaravelMediaSecure\\": "src",
             "Bekwoh\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
-        }
+        },
+        "files": [
+            "support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

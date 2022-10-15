@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use function Pest\Laravel\get;
+use function PHPUnit\Framework\assertTrue;
 
 uses(RefreshDatabase::class);
 
@@ -68,3 +69,9 @@ it('can download media if media do not exist', function () {
             'uuid' => $media->uuid,
         ]))->assertStatus(200);
 })->group('download')->skip('The test unable to add media at the moment.');
+
+it('has helpers', function() {
+    assertTrue(function_exists('get_media_url'));
+    assertTrue(function_exists('get_view_media_url'));
+    assertTrue(function_exists('get_download_media_url'));
+});
