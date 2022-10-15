@@ -27,7 +27,7 @@ class MediaController extends Controller
             MediaAccess::stream()->value => response()->streamDownload(function () use ($media) {
                 echo file_get_contents($media->getPath());
             }),
-            MediaAccess::view()->value => response()->file($media->getPath),
+            MediaAccess::view()->value => response()->file($media->getPath()),
             MediaAccess::download()->value => response()->download($media->getPath()),
             default => abort(422, 'Invalid media request')
         };
