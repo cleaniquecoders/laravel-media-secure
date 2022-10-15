@@ -5,7 +5,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
-
 use function Pest\Laravel\get;
 
 uses(RefreshDatabase::class);
@@ -13,11 +12,11 @@ uses(RefreshDatabase::class);
 beforeEach(function () {
     if (! Schema::hasTable('media')) {
         Artisan::call('migrate', [
-            '--path' => '../../../../tests/database/migrations/'
+            '--path' => '../../../../tests/database/migrations/',
         ]);
     }
 
-    Route::get('/login', fn() => 'login')->name('login');
+    Route::get('/login', fn () => 'login')->name('login');
 });
 
 it('cannot view media if not logged in', function () {

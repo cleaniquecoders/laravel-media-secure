@@ -3,7 +3,7 @@
 use Bekwoh\LaravelMediaSecure\Http\Controllers\MediaController;
 
 return [
-    /** 
+    /**
      * Spatie's Model Class Name
      */
     'model' => \Spatie\MediaLibrary\MediaCollections\Models\Media::class,
@@ -12,14 +12,14 @@ return [
      * Controller to manage access to the media.
      */
     'controller' => [
-        MediaController::class, '__invoke'
+        MediaController::class, '__invoke',
     ],
 
     /**
      * Middleware want to apply to the media route.
      */
     'middleware' => [
-        'auth'
+        'auth',
     ],
 
     /**
