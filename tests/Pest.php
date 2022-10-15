@@ -22,3 +22,18 @@ function user($name = 'pest', $email = 'pest@media.com', $password = 'password')
         'password' => Hash::make($password),
     ]);
 }
+
+function media($user)
+{
+    $file = __DIR__.'/file.test';
+    if (file_exists($file)) {
+        unlink($file);
+    }
+
+    touch($file);
+    $user
+        ->addMedia($file)
+        ->toMediaCollection();
+
+    return $user->getFirstMedia();
+}
