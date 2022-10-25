@@ -19,7 +19,7 @@ class MediaController extends Controller
     {
         abort_if(! MediaAccess::acceptable($type), 422, 'Invalid request type of '.$type);
 
-        $media = config('media-library.media_model')::whereUuid($uuid)->firstOrFail();
+        $media = config('laravel-media-secure.model')::whereUuid($uuid)->firstOrFail();
 
         abort_if($request->user()->cannot($type, $media), 403, 'Unauthorized Access.');
 
