@@ -19,17 +19,21 @@ class MediaController extends Controller
     {
         abort_if(! MediaAccess::acceptable($type), 422, 'Invalid request type of '.$type);
 
-        $media = config('laravel-media-secure.model')::whereUuid($uuid)->firstOrFail();
+        $media = config('media-library.media_model')::whereUuid($uuid)->firstOrFail();
 
         abort_if($request->user()->cannot($type, $media), 403, 'Unauthorized Access.');
 
-        return match ($type) {
-            MediaAccess::stream()->value => response()->streamDownload(function () use ($media) {
-                echo file_get_contents($media->getPath());
-            }),
-            MediaAccess::view()->value => response()->file($media->getPath()),
-            MediaAccess::download()->value => response()->download($media->getPath()),
-            default => abort(422, 'Invalid media request')
-        };
+        if($type == MediaAccess::view()->value || $type == MediaAccess::stream()->value) {
+            return response()->make(file_get_contents($media->getPath()), 200, [
+                'Content-Type' => $media->mime_type,
+                'Content-Disposition' => 'inline; filename="'.$media->file_name.'"'
+            ]);
+        }
+
+        if($type == MediaAccess::download()->value) {
+            return response()->download($media->getPath());
+        }
+
+        return abort(422, 'Invalid media request');
     }
 }
