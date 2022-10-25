@@ -23,14 +23,14 @@ class MediaController extends Controller
 
         abort_if($request->user()->cannot($type, $media), 403, 'Unauthorized Access.');
 
-        if($type == MediaAccess::view()->value || $type == MediaAccess::stream()->value) {
+        if ($type == MediaAccess::view()->value || $type == MediaAccess::stream()->value) {
             return response()->make(file_get_contents($media->getPath()), 200, [
                 'Content-Type' => $media->mime_type,
-                'Content-Disposition' => 'inline; filename="'.$media->file_name.'"'
+                'Content-Disposition' => 'inline; filename="'.$media->file_name.'"',
             ]);
         }
 
-        if($type == MediaAccess::download()->value) {
+        if ($type == MediaAccess::download()->value) {
             return response()->download($media->getPath());
         }
 
