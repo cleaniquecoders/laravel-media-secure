@@ -2,10 +2,6 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
-## Added Laravel 10 Support - 2023-02-25
-
-**Full Changelog**: https://github.com/bekwoh/laravel-media-secure/compare/1.0.5...1.1.0
-
 ## 1.0.5 - 2022-10-25
 
 **Full Changelog**: https://github.com/bekwoh/laravel-media-secure/compare/1.0.4...1.0.5
