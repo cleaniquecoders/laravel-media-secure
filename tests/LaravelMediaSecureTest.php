@@ -1,11 +1,12 @@
 <?php
 
-use Bekwoh\LaravelMediaSecure\Enums\MediaAccess;
-use Bekwoh\LaravelMediaSecure\LaravelMediaSecure;
+use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
+use CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
+
 use function Pest\Laravel\get;
 use function PHPUnit\Framework\assertTrue;
 

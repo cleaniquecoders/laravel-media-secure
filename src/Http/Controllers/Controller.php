@@ -1,6 +1,6 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Http\Controllers;
+namespace CleaniqueCoders\LaravelMediaSecure\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;

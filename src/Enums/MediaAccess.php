@@ -1,6 +1,6 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Enums;
+namespace CleaniqueCoders\LaravelMediaSecure\Enums;
 
 use Spatie\Enum\Laravel\Enum;
 

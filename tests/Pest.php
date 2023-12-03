@@ -1,7 +1,7 @@
 <?php
 
-use Bekwoh\LaravelMediaSecure\Tests\Models\User;
-use Bekwoh\LaravelMediaSecure\Tests\TestCase;
+use CleaniqueCoders\LaravelMediaSecure\Tests\Models\User;
+use CleaniqueCoders\LaravelMediaSecure\Tests\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 

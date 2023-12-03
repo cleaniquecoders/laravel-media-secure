@@ -1,12 +1,12 @@
 {
-    "name": "bekwoh/laravel-media-secure",
+    "name": "cleaniquecoders/laravel-media-secure",
     "description": "Securely display Media",
     "keywords": [
-        "bekwoh",
+        "cleaniquecoders",
         "laravel",
         "laravel-media-secure"
     ],
-    "homepage": "https://github.com/bekwoh/laravel-media-secure",
+    "homepage": "https://github.com/cleaniquecoders/laravel-media-secure",
     "license": "MIT",
     "authors": [
         {
@@ -37,8 +37,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Bekwoh\\LaravelMediaSecure\\": "src",
-            "Bekwoh\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
+            "CleaniqueCoders\\LaravelMediaSecure\\": "src",
+            "CleaniqueCoders\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
         },
         "files": [
             "support/helpers.php"
@@ -46,7 +46,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Bekwoh\\LaravelMediaSecure\\Tests\\": "tests"
+            "CleaniqueCoders\\LaravelMediaSecure\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -66,10 +66,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Bekwoh\\LaravelMediaSecure\\LaravelMediaSecureServiceProvider"
+                "CleaniqueCoders\\LaravelMediaSecure\\LaravelMediaSecureServiceProvider"
             ],
             "aliases": {
-                "LaravelMediaSecure": "Bekwoh\\LaravelMediaSecure\\Facades\\LaravelMediaSecure"
+                "LaravelMediaSecure": "CleaniqueCoders\\LaravelMediaSecure\\Facades\\LaravelMediaSecure"
             }
         }
     },

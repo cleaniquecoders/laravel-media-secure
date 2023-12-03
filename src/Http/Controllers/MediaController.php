@@ -1,8 +1,8 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Http\Controllers;
+namespace CleaniqueCoders\LaravelMediaSecure\Http\Controllers;
 
-use Bekwoh\LaravelMediaSecure\Enums\MediaAccess;
+use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller
@@ -10,9 +10,6 @@ class MediaController extends Controller
     /**
      * Handle the incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  string  $type
-     * @param  string  $uuid
      * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request, string $type, string $uuid)

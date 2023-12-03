@@ -5,10 +5,7 @@ parameters:
     level: 4
     ignoreErrors:
         -
-            message: '#Access to an undefined property Spatie\\MediaLibrary\\MediaCollections\\Models\\Media::\$uuid.#'
-            path: support/helpers.php
-        -
-            message: '#Method Bekwoh\\LaravelMediaSecure\\Http\\Controllers\\MediaController::__invoke\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\BinaryFileResponse.#'
+            message: '#Method CleaniqueCoders\\LaravelMediaSecure\\Http\\Controllers\\MediaController::__invoke\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\BinaryFileResponse.#'
             path: src/Http/Controllers/MediaController.php
     paths:
         - config

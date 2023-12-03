@@ -1,6 +1,6 @@
 <?php
 
-use Bekwoh\LaravelMediaSecure\Enums\MediaAccess;
+use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 if (! function_exists('get_media_url')) {
