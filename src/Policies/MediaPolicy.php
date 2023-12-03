@@ -14,8 +14,6 @@ class MediaPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media  $media
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Media $media)
@@ -38,8 +36,6 @@ class MediaPolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \Illuminate\Foundation\Auth\User  $user
-     * @param  \Spatie\MediaLibrary\MediaCollections\Models\Media  $media
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function download(User $user, Media $media)
