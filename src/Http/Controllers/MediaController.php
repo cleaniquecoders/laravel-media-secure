@@ -1,8 +1,8 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Http\Controllers;
+namespace CleaniqueCoders\LaravelMediaSecure\Http\Controllers;
 
-use Bekwoh\LaravelMediaSecure\Enums\MediaAccess;
+use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Illuminate\Http\Request;
 
 class MediaController extends Controller

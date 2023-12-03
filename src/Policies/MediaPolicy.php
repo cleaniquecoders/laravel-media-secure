@@ -1,6 +1,6 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Policies;
+namespace CleaniqueCoders\LaravelMediaSecure\Policies;
 
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User;

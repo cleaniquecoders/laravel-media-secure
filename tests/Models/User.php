@@ -1,6 +1,6 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Tests\Models;
+namespace CleaniqueCoders\LaravelMediaSecure\Tests\Models;
 
 use Illuminate\Foundation\Auth\User as Model;
 use Spatie\MediaLibrary\HasMedia;

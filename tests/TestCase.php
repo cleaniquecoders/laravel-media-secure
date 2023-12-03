@@ -1,8 +1,8 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Tests;
+namespace CleaniqueCoders\LaravelMediaSecure\Tests;
 
-use Bekwoh\LaravelMediaSecure\LaravelMediaSecureServiceProvider;
+use CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecureServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
 
@@ -13,7 +13,7 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Bekwoh\\LaravelMediaSecure\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'CleaniqueCoders\\LaravelMediaSecure\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
     }
 

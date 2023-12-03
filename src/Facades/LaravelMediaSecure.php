@@ -1,16 +1,16 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure\Facades;
+namespace CleaniqueCoders\LaravelMediaSecure\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Bekwoh\LaravelMediaSecure\LaravelMediaSecure
+ * @see \CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecure
  */
 class LaravelMediaSecure extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Bekwoh\LaravelMediaSecure\LaravelMediaSecure::class;
+        return \CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecure::class;
     }
 }

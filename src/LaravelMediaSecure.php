@@ -1,6 +1,6 @@
 <?php
 
-namespace Bekwoh\LaravelMediaSecure;
+namespace CleaniqueCoders\LaravelMediaSecure;
 
 use Illuminate\Support\Facades\Route;
 

@@ -1,9 +1,9 @@
 # Securely display Media
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/bekwoh/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/bekwoh/laravel-media-secure)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/bekwoh/laravel-media-secure/run-tests?label=tests)](https://github.com/bekwoh/laravel-media-secure/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/bekwoh/laravel-media-secure/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/bekwoh/laravel-media-secure/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/bekwoh/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/bekwoh/laravel-media-secure)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/cleaniquecoders/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/laravel-media-secure)
+[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/cleaniquecoders/laravel-media-secure/run-tests?label=tests)](https://github.com/cleaniquecoders/laravel-media-secure/actions?query=workflow%3Arun-tests+branch%3Amain)
+[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/cleaniquecoders/laravel-media-secure/Fix%20PHP%20code%20style%20issues?label=code%20style)](https://github.com/cleaniquecoders/laravel-media-secure/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![Total Downloads](https://img.shields.io/packagist/dt/cleaniquecoders/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/laravel-media-secure)
 
 You have documents, but want to limit the access to only logged in users, and also have some other sophisticated / complex rules in order to access the documents, then this package is for you.
 
@@ -14,13 +14,13 @@ This package will securely display or download to your media files.
 You can install the package via composer:
 
 ```bash
-composer require bekwoh/laravel-media-secure
+composer require cleaniquecoders/laravel-media-secure
 ```
 
 Add the following in your route file:
 
 ```php
-use Bekwoh\LaravelMediaSecure\LaravelMediaSecure;
+use CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecure;
 
 LaravelMediaSecure::routes();
 ```
