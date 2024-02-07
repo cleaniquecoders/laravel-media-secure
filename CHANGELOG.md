@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## 1.2.0 - 2024-02-07
+
+### What's Changed
+
+* Update Root Namespace by @nasrulhazim in https://github.com/cleaniquecoders/laravel-media-secure/pull/1
+
+### New Contributors
+
+* @nasrulhazim made their first contribution in https://github.com/cleaniquecoders/laravel-media-secure/pull/1
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/1.1.0...1.2.0
+
 ## Added Laravel 10 Support - 2023-02-25
 
 **Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/1.0.5...1.1.0
