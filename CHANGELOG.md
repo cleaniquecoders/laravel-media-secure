@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## Added Laravel 11 Support - 2024-03-21
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/1.2.0...2.0.0
+
 ## 1.2.0 - 2024-02-07
 
 ### What's Changed
