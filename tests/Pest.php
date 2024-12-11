@@ -39,7 +39,7 @@ function media(User $user)
             ->usingFileName('file.test')
             ->toMediaCollection('private'); // Use a private collection name
 
-        if (!$media) {
+        if (! $media) {
             throw new \Exception('Media not created');
         }
 
