@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## 2.1.1 - 2024-12-11
+
+- Improve Pest Setup
+- Added Rector
+- Update dependencies
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/2.1.0...2.1.1
+
 ## 2.1.0 - 2024-05-26
 
 **Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/2.0.0...2.1.0
