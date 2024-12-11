@@ -81,9 +81,13 @@ it('can view media if media do exist', function () {
 it('can download media if media do exist', function () {
     $user = user();
     $media = media($user);
+
+    // Make sure media was created successfully
+    expect($media)->not->toBeNull();
+
     login($user)
         ->get(route('media', [
-            'type' => MediaAccess::view()->value,
+            'type' => MediaAccess::download()->value,  // Changed from view to download
             'uuid' => $media->uuid,
         ]))->assertStatus(200);
 })->group('download')->skip('The test unable to add media at the moment.');
