@@ -24,9 +24,10 @@
     "spatie/laravel-package-tools": "^1.14.0"
   },
   "require-dev": {
+    "driftingly/rector-laravel": "^1.2",
+    "larastan/larastan": "^2.9",
     "laravel/pint": "^1.0",
     "nunomaduro/collision": "^7.0",
-    "larastan/larastan": "^2.9",
     "orchestra/testbench": "^8.0 | ^9.0",
     "pestphp/pest": "^2.0",
     "pestphp/pest-plugin-laravel": "^2.0",
@@ -54,7 +55,8 @@
     "analyse": "vendor/bin/phpstan analyse",
     "test": "vendor/bin/pest",
     "test-coverage": "vendor/bin/pest --coverage",
-    "format": "vendor/bin/pint"
+    "format": "vendor/bin/pint",
+    "rector": "vendor/bin/rector process"
   },
   "config": {
     "sort-packages": true,
