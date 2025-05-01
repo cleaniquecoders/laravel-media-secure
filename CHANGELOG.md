@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## Added Laravel 12 and PHP 8.4 Support - 2025-05-01
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/2.1.1...2.2.0
+
 ## 2.1.1 - 2024-12-11
 
 - Improve Pest Setup
