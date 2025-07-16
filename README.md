@@ -33,14 +33,13 @@ Then add the following in your `app/Providers/AuthServiceProvider.php`:
 public function boot()
 {
     $this->policies[config('laravel-media-secure.model')] = config('laravel-media-secure.policy');
-    $this->registerPolicies();
 }
 ```
 
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-media-secure-config"
+php artisan vendor:publish --tag="media-secure-config"
 ```
 
 By default, all media required logged in user. No guest account.
