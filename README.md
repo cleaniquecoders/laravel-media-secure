@@ -26,13 +26,15 @@ Then add the following in your `app/Providers/AuthServiceProvider.php`:
 
 ```php
 /**
- * Register any authentication / authorization services.
+ * Get the policies defined on the provider.
  *
- * @return void
+ * @return array<class-string, class-string>
  */
-public function boot()
+public function policies()
 {
     $this->policies[config('laravel-media-secure.model')] = config('laravel-media-secure.policy');
+
+    return $this->policies;
 }
 ```
 
