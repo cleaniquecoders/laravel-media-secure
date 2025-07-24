@@ -58,7 +58,7 @@ class MediaPolicy
             return false;
         }
 
-        if(config('laravel-media-secure.strict') && is_null(Gate::getPolicyFor($media->model))) {
+        if (config('laravel-media-secure.strict') && is_null(Gate::getPolicyFor($media->model))) {
             return false;
         }
 
