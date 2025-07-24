@@ -23,7 +23,7 @@
     "spatie/laravel-package-tools": "^1.14.0"
   },
   "require-dev": {
-    "driftingly/rector-laravel": "^1.2",
+    "driftingly/rector-laravel": "^1.2 | ^2.0",
     "larastan/larastan": "^2.9 | ^3.6",
     "laravel/pint": "^1.0",
     "nunomaduro/collision": "^8.0",
