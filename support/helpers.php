@@ -16,20 +16,20 @@ if (! function_exists('get_media_url')) {
 if (! function_exists('get_view_media_url')) {
     function get_view_media_url(Media $media)
     {
-        return get_media_url(MediaAccess::view(), $media);
+        return get_media_url(MediaAccess::VIEW, $media);
     }
 }
 
 if (! function_exists('get_download_media_url')) {
     function get_download_media_url(Media $media)
     {
-        return get_media_url(MediaAccess::download(), $media);
+        return get_media_url(MediaAccess::DOWNLOAD, $media);
     }
 }
 
 if (! function_exists('get_stream_media_url')) {
     function get_stream_media_url(Media $media)
     {
-        return get_media_url(MediaAccess::stream(), $media);
+        return get_media_url(MediaAccess::STREAM, $media);
     }
 }
