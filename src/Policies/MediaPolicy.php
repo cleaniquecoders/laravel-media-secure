@@ -2,6 +2,7 @@
 
 namespace CleaniqueCoders\LaravelMediaSecure\Policies;
 
+use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
@@ -12,33 +13,42 @@ class MediaPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can view the model's media.
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function view(User $user, Media $media)
     {
-        if (! auth()->user()) {
-            return false;
-        }
-
-        if (! file_exists($media->getPath())) {
-            return false;
-        }
-
-        if (! is_null(Gate::getPolicyFor($media->model))) {
-            return Gate::allows('view', $media->model);
-        }
-
-        return true;
+        return $this->canAccess($user, $media, MediaAccess::VIEW);
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Determine whether the user can stream the model's media.
+     *
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function stream(User $user, Media $media)
+    {
+        return $this->canAccess($user, $media, MediaAccess::STREAM);
+    }
+
+    /**
+     * Determine whether the user can download the model's media.
      *
      * @return \Illuminate\Auth\Access\Response|bool
      */
     public function download(User $user, Media $media)
+    {
+        return $this->canAccess($user, $media, MediaAccess::DOWNLOAD);
+    }
+
+    /**
+     * Determine whether the user can view, stream or download
+     * the model's media.
+     *
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    private function canAccess(User $user, Media $media, MediaAccess $mediaAccess)
     {
         if (! auth()->user()) {
             return false;
@@ -49,7 +59,7 @@ class MediaPolicy
         }
 
         if (! is_null(Gate::getPolicyFor($media->model))) {
-            return Gate::allows('view', $media->model);
+            return Gate::allows($mediaAccess->value, $media->model);
         }
 
         return true;

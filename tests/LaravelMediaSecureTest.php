@@ -25,21 +25,21 @@ beforeEach(function () {
 
 it('cannot view media if not logged in', function () {
     get(route('media', [
-        'type' => MediaAccess::view()->value,
+        'type' => MediaAccess::VIEW->value,
         'uuid' => '123asd',
     ]))->assertStatus(302);
 })->group('view');
 
 it('cannot download media if not logged in', function () {
     get(route('media', [
-        'type' => MediaAccess::download()->value,
+        'type' => MediaAccess::DOWNLOAD->value,
         'uuid' => '123asd',
     ]))->assertStatus(302);
 })->group('download');
 
 it('cannot stream media if not logged in', function () {
     get(route('media', [
-        'type' => MediaAccess::stream()->value,
+        'type' => MediaAccess::STREAM->value,
         'uuid' => '123asd',
     ]))->assertStatus(302);
 })->group('stream');
@@ -47,7 +47,7 @@ it('cannot stream media if not logged in', function () {
 it('cannot view media if media do not exist', function () {
     login()
         ->get(route('media', [
-            'type' => MediaAccess::view()->value,
+            'type' => MediaAccess::VIEW->value,
             'uuid' => '123asd',
         ]))->assertStatus(404);
 })->group('view');
@@ -55,7 +55,7 @@ it('cannot view media if media do not exist', function () {
 it('cannot download media if media do not exist', function () {
     login()
         ->get(route('media', [
-            'type' => MediaAccess::view()->value,
+            'type' => MediaAccess::VIEW->value,
             'uuid' => '123asd',
         ]))->assertStatus(404);
 })->group('download');
@@ -63,7 +63,7 @@ it('cannot download media if media do not exist', function () {
 it('cannot stream media if media do not exist', function () {
     login()
         ->get(route('media', [
-            'type' => MediaAccess::stream()->value,
+            'type' => MediaAccess::STREAM->value,
             'uuid' => '123asd',
         ]))->assertStatus(404);
 })->group('stream');
@@ -73,7 +73,7 @@ it('can view media if media do exist', function () {
     $media = media($user);
     login($user)
         ->get(route('media', [
-            'type' => MediaAccess::view()->value,
+            'type' => MediaAccess::VIEW->value,
             'uuid' => $media->uuid,
         ]))->assertStatus(200);
 })->group('view')->skip('The test unable to add media at the moment.');
@@ -87,7 +87,7 @@ it('can download media if media do exist', function () {
 
     login($user)
         ->get(route('media', [
-            'type' => MediaAccess::download()->value,  // Changed from view to download
+            'type' => MediaAccess::DOWNLOAD->value,  // Changed from view to download
             'uuid' => $media->uuid,
         ]))->assertStatus(200);
 })->group('download')->skip('The test unable to add media at the moment.');
@@ -97,7 +97,7 @@ it('can stream media if media do exist', function () {
     $media = media($user);
     login($user)
         ->get(route('media', [
-            'type' => MediaAccess::view()->value,
+            'type' => MediaAccess::VIEW->value,
             'uuid' => $media->uuid,
         ]))->assertStatus(200);
 })->group('stream')->skip('The test unable to add media at the moment.');

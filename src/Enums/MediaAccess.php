@@ -2,17 +2,34 @@
 
 namespace CleaniqueCoders\LaravelMediaSecure\Enums;
 
-use Spatie\Enum\Laravel\Enum;
+use CleaniqueCoders\Traitify\Concerns\InteractsWithEnum;
+use CleaniqueCoders\Traitify\Contracts\Enum;
 
-/**
- * @method static self view()
- * @method static self stream()
- * @method static self download()
- */
-class MediaAccess extends Enum
+enum MediaAccess: string implements Enum
 {
-    public static function acceptable(string $type)
+    use InteractsWithEnum;
+
+    CASE VIEW = 'view';
+    CASE DOWNLOAD = 'download';
+    CASE STREAM = 'stream';
+
+    public function label(): string
     {
-        return in_array($type, self::toArray());
+        return ucfirst($this->value);
+    }
+
+    public function description(): string
+    {
+        return $this->label() . ' Media';
+    }
+
+    public static function acceptable(string $type): bool
+    {
+        foreach (self::cases() as $case) {
+            if ($case->value === $type) {
+                return true;
+            }
+        }
+        return false;
     }
 }
