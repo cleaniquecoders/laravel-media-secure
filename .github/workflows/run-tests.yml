@@ -14,21 +14,13 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         php: [8.2, 8.3, 8.4]
-        laravel: [10.*, 11.*, 12.*]
+        laravel: [11.*, 12.*]
         stability: [prefer-stable]
-        exclude:
-          - php: 8.2
-            laravel: 11.*
         include:
-          - laravel: 10.*
-            testbench: 8.*
-            pest: true
           - laravel: 11.*
             testbench: 9.*
-            pest: false
           - laravel: 12.*
             testbench: 10.*
-            pest: false
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
@@ -47,10 +39,6 @@ jobs:
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
 
-      - name: Install Pest (if supported)
-        if: matrix.pest == true
-        run: composer require pestphp/pest pestphp/pest-plugin-laravel --dev --no-interaction
-
       - name: Install All Dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
@@ -58,9 +46,4 @@ jobs:
         run: composer show -D
 
       - name: Run Pest
-        if: matrix.pest == true
         run: vendor/bin/pest
-
-      - name: Run PHPUnit (fallback)
-        if: matrix.pest != true
-        run: vendor/bin/phpunit
