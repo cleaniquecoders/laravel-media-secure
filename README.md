@@ -1,4 +1,4 @@
-# Securely display Media
+# Secure Your Media Access
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/cleaniquecoders/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/laravel-media-secure) [![Fix PHP code style issues](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/fix-styling.yml/badge.svg)](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/fix-styling.yml) [![PHPStan](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/phpstan.yml/badge.svg)](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/phpstan.yml) [![Rector CI](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/rector.yml/badge.svg)](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/rector.yml) [![run-tests](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/run-tests.yml/badge.svg)](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/run-tests.yml) [![Update Changelog](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/update-changelog.yml/badge.svg)](https://github.com/cleaniquecoders/laravel-media-secure/actions/workflows/update-changelog.yml) [![Total Downloads](https://img.shields.io/packagist/dt/cleaniquecoders/laravel-media-secure.svg?style=flat-square)](https://packagist.org/packages/cleaniquecoders/laravel-media-secure)
 
@@ -14,52 +14,15 @@ You can install the package via composer:
 composer require cleaniquecoders/laravel-media-secure
 ```
 
-Add the following in your route file:
-
-```php
-use CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecure;
-
-LaravelMediaSecure::routes();
-```
-
-Then add the following in your `app/Providers/AuthServiceProvider.php`:
-
-```php
-/**
- * Get the policies defined on the provider.
- *
- * @return array<class-string, class-string>
- */
-public function policies()
-{
-    $this->policies[config('laravel-media-secure.model')] = config('laravel-media-secure.policy');
-
-    return $this->policies;
-}
-```
-
-You can publish the config file with:
+Publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="media-secure-config"
 ```
 
-By default, all media required logged in user. No guest account.
-
-To add more restriction to all your media, you can update the middleware used:
-
-```php
-/**
-* Middleware want to apply to the media route.
-*/
-'middleware' => [
-    'auth', 'verified',
-],
-```
-
-In case you want more control on who are able to access to the media, you can use the [Laravel Policy](https://laravel.com/docs/9.x/authorization#creating-policies). You just need to define the policy, then it's done. This package will use the policy to handle more sophisticated and complex rules accessing to your media files.
-
 ## Usage
+
+In case you want more control on who are able to access to the media, you can use the [Laravel Policy](https://laravel.com/docs/12.x/authorization#creating-policies). You just need to define the policy, then it's done. This package will use the policy to handle more sophisticated and complex rules accessing to your media files.
 
 Make sure you are using [Laravel Medialibrary](https://spatie.be/docs/laravel-medialibrary/v10/introduction) package.
 

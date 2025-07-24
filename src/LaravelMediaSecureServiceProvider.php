@@ -2,6 +2,7 @@
 
 namespace CleaniqueCoders\LaravelMediaSecure;
 
+use Illuminate\Support\Facades\Gate;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -16,6 +17,15 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
          */
         $package
             ->name('laravel-media-secure')
-            ->hasConfigFile('laravel-media-secure');
+            ->hasConfigFile('laravel-media-secure')
+            ->hasRoute('web');
+    }
+
+    public function bootingPackage()
+    {
+        Gate::policy(
+            config('laravel-media-secure.model'),
+            config('laravel-media-secure.policy'),
+        );
     }
 }
