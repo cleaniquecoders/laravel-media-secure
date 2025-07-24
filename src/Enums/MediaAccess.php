@@ -9,9 +9,9 @@ enum MediaAccess: string implements Enum
 {
     use InteractsWithEnum;
 
-    CASE VIEW = 'view';
-    CASE DOWNLOAD = 'download';
-    CASE STREAM = 'stream';
+    case VIEW = 'view';
+    case DOWNLOAD = 'download';
+    case STREAM = 'stream';
 
     public function label(): string
     {
@@ -20,7 +20,7 @@ enum MediaAccess: string implements Enum
 
     public function description(): string
     {
-        return $this->label() . ' Media';
+        return $this->label().' Media';
     }
 
     public static function acceptable(string $type): bool
@@ -30,6 +30,7 @@ enum MediaAccess: string implements Enum
                 return true;
             }
         }
+
         return false;
     }
 }
