@@ -58,6 +58,10 @@ class MediaPolicy
             return false;
         }
 
+        if(config('laravel-media-secure.strict') && is_null(Gate::getPolicyFor($media->model))) {
+            return false;
+        }
+
         if (! is_null(Gate::getPolicyFor($media->model))) {
             return Gate::allows($mediaAccess->value, $media->model);
         }
