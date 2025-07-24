@@ -50,7 +50,7 @@ class MediaPolicy
      */
     private function canAccess(User $user, Media $media, MediaAccess $mediaAccess)
     {
-        if (config('laravel-media-secure.strict') && ! auth()->check()) {
+        if (config('laravel-media-secure.require_auth') && ! auth()->check()) {
             return false;
         }
 
