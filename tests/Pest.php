@@ -25,31 +25,32 @@ function user($name = 'pest', $email = 'pest@media.com', $password = 'password')
 
 function media(User $user)
 {
-    $file = __DIR__.'/file.test';
-    if (file_exists($file)) {
-        unlink($file);
+    $testFile = __DIR__.'/stubs/test.txt';
+
+    // Ensure the test file exists
+    if (! file_exists($testFile)) {
+        file_put_contents($testFile, 'Test content for media');
     }
 
-    file_put_contents($file, 'Test content');
-
     try {
+        // Create media without specifying collection name first
         $media = $user
-            ->addMedia($file)
+            ->addMedia($testFile)
             ->usingName('Test File')
-            ->usingFileName('file.test')
-            ->toMediaCollection('private'); // Use a private collection name
+            ->toMediaCollection();
 
-        if (! $media) {
-            throw new \Exception('Media not created');
-        }
-
-        return $user->fresh()->getFirstMedia('private');
+        return $media;
     } catch (\Exception $e) {
-        var_dump($e->getMessage());
-        throw $e;
-    } finally {
-        if (file_exists($file)) {
-            unlink($file);
+        // If that fails, try with the 'default' collection
+        try {
+            $media = $user
+                ->addMedia($testFile)
+                ->usingName('Test File')
+                ->toMediaCollection('default');
+
+            return $media;
+        } catch (\Exception $e2) {
+            throw new \Exception('Failed to create media: '.$e2->getMessage());
         }
     }
 }

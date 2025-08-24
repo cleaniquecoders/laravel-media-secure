@@ -10,5 +10,5 @@ Route::get(
         config('laravel-media-secure.route_name')
     )
     ->middleware(
-        config('laravel-media-secure.middleware', ['auth', 'verified'])
+        config('laravel-media-secure.middleware', ['auth', 'verified', 'validate-media-access'])
     );

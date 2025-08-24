@@ -27,5 +27,17 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
             config('laravel-media-secure.model'),
             config('laravel-media-secure.policy'),
         );
+
+        $this->registerMiddleware();
+    }
+
+    protected function registerMiddleware()
+    {
+        $router = $this->app['router'];
+
+        // Register the middleware with its alias if using Laravel < 10.0
+        if (method_exists($router, 'aliasMiddleware')) {
+            $router->aliasMiddleware('validate-media-access', \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateMediaAccess::class);
+        }
     }
 }

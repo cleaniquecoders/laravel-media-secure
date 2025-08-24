@@ -14,11 +14,8 @@ class MediaController extends Controller
      */
     public function __invoke(Request $request, string $type, string $uuid)
     {
-        abort_if(! MediaAccess::acceptable($type), 422, 'Invalid request type of '.$type);
-
-        $media = config('laravel-media-secure.model')::whereUuid($uuid)->firstOrFail();
-
-        abort_if($request->user()->cannot($type, $media), 403, 'Unauthorized Access.');
+        // Media has been fetched and authorized in the ValidateMediaAccess middleware
+        $media = $request->attributes->get('media');
 
         if ($type == MediaAccess::VIEW->value || $type == MediaAccess::STREAM->value) {
             return response()->make(file_get_contents($media->getPath()), 200, [
