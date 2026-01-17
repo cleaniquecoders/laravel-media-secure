@@ -61,7 +61,39 @@ $url = get_media_url(MediaAccess::STREAM, $media);
 <iframe src="{{ get_view_media_url($media) }}" width="100%" height="600"></iframe>
 ```
 
+## Signed URLs (Shareable)
+
+Signed URLs allow sharing media with external users without requiring authentication.
+The URLs are cryptographically signed and expire after a configurable time.
+
+```php
+// Generate signed URLs with default expiration
+$viewUrl = get_signed_view_url($media);
+$downloadUrl = get_signed_download_url($media);
+$streamUrl = get_signed_stream_url($media);
+
+// Generate with custom expiration (in minutes)
+$viewUrl = get_signed_view_url($media, 30);  // 30 minutes
+$downloadUrl = get_signed_download_url($media, 1440);  // 24 hours
+
+// Generate with DateTime expiration
+$viewUrl = get_signed_view_url($media, now()->addWeek());
+```
+
+### Using Signed URLs in Blade
+
+```blade
+{{-- Share a download link that expires in 24 hours --}}
+<a href="{{ get_signed_download_url($media, 1440) }}">Download (expires in 24h)</a>
+
+{{-- Embed an image with a 1-week expiry --}}
+<img src="{{ get_signed_view_url($media, 10080) }}" alt="Shared Image">
+```
+
+For more details, see [Signed URLs](../04-signed-urls/README.md).
+
 ## Next Steps
 
 - [Configuration Options](../02-configuration/01-options.md)
 - [Setting Up Policies](../03-authorization/01-policies.md)
+- [Signed URLs](../04-signed-urls/README.md)

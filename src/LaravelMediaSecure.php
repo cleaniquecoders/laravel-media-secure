@@ -3,8 +3,11 @@
 namespace CleaniqueCoders\LaravelMediaSecure;
 
 use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
+use DateInterval;
+use DateTimeInterface;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class LaravelMediaSecure
@@ -44,6 +47,104 @@ class LaravelMediaSecure
         ]);
     }
 
+    /*
+    |--------------------------------------------------------------------------
+    | Signed URL Methods
+    |--------------------------------------------------------------------------
+    |
+    | These methods generate time-limited, cryptographically signed URLs that
+    | allow unauthenticated access to media files. Useful for sharing media
+    | with external users or embedding in emails.
+    |
+    */
+
+    /**
+     * Generate a signed URL for viewing media.
+     *
+     * @param  DateTimeInterface|DateInterval|int|null  $expiration  Expiration time (null = use config default)
+     */
+    public function signedViewUrl(Media $media, DateTimeInterface|DateInterval|int|null $expiration = null): string
+    {
+        return $this->signedUrl(MediaAccess::VIEW, $media, $expiration);
+    }
+
+    /**
+     * Generate a signed URL for downloading media.
+     *
+     * @param  DateTimeInterface|DateInterval|int|null  $expiration  Expiration time (null = use config default)
+     */
+    public function signedDownloadUrl(Media $media, DateTimeInterface|DateInterval|int|null $expiration = null): string
+    {
+        return $this->signedUrl(MediaAccess::DOWNLOAD, $media, $expiration);
+    }
+
+    /**
+     * Generate a signed URL for streaming media.
+     *
+     * @param  DateTimeInterface|DateInterval|int|null  $expiration  Expiration time (null = use config default)
+     */
+    public function signedStreamUrl(Media $media, DateTimeInterface|DateInterval|int|null $expiration = null): string
+    {
+        return $this->signedUrl(MediaAccess::STREAM, $media, $expiration);
+    }
+
+    /**
+     * Generate a signed URL for the given access type and media.
+     *
+     * @param  DateTimeInterface|DateInterval|int|null  $expiration  Expiration time in minutes, DateInterval, or DateTime (null = use config default)
+     */
+    public function signedUrl(MediaAccess $accessType, Media $media, DateTimeInterface|DateInterval|int|null $expiration = null): string
+    {
+        $expiration = $this->resolveExpiration($expiration);
+
+        return URL::temporarySignedRoute(
+            config('laravel-media-secure.signed.route_name'),
+            $expiration,
+            [
+                'type' => $accessType->value,
+                'uuid' => $media->uuid,
+            ]
+        );
+    }
+
+    /**
+     * Check if signed URLs are enabled.
+     */
+    public function signedUrlsEnabled(): bool
+    {
+        return (bool) config('laravel-media-secure.signed.enabled', true);
+    }
+
+    /**
+     * Get the default signed URL expiration time in minutes.
+     */
+    public function getDefaultExpiration(): int
+    {
+        return (int) config('laravel-media-secure.signed.expiration', 60);
+    }
+
+    /**
+     * Resolve the expiration time to use.
+     */
+    protected function resolveExpiration(DateTimeInterface|DateInterval|int|null $expiration): DateTimeInterface|DateInterval|int
+    {
+        if ($expiration === null) {
+            return now()->addMinutes($this->getDefaultExpiration());
+        }
+
+        if (is_int($expiration)) {
+            return now()->addMinutes($expiration);
+        }
+
+        return $expiration;
+    }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Authorization Methods
+    |--------------------------------------------------------------------------
+    */
+
     /**
      * Check if a user can access media with the given access type.
      */
@@ -75,6 +176,12 @@ class LaravelMediaSecure
     {
         return $this->canAccess($user, $media, MediaAccess::STREAM);
     }
+
+    /*
+    |--------------------------------------------------------------------------
+    | Configuration Methods
+    |--------------------------------------------------------------------------
+    */
 
     /**
      * Check if authentication is required for media access.

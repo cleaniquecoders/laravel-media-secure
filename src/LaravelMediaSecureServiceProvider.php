@@ -42,9 +42,17 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
     {
         $router = $this->app['router'];
 
-        // Register the middleware with its alias if using Laravel < 10.0
+        // Register middleware aliases
         if (method_exists($router, 'aliasMiddleware')) {
-            $router->aliasMiddleware('validate-media-access', \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateMediaAccess::class);
+            $router->aliasMiddleware(
+                'validate-media-access',
+                \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateMediaAccess::class
+            );
+
+            $router->aliasMiddleware(
+                'validate-signed-media-access',
+                \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateSignedMediaAccess::class
+            );
         }
     }
 }

@@ -12,6 +12,8 @@ class MediaController extends Controller
 {
     /**
      * Handle the incoming request.
+     *
+     * @param  string  $uuid  Media UUID (used by route, media is pre-fetched by middleware)
      */
     public function __invoke(Request $request, string $type, string $uuid): Response
     {

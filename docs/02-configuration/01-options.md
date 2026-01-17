@@ -99,16 +99,86 @@ Whether parent model must have a policy.
 
 See [Strict Mode](../03-authorization/02-strict-mode.md) for details.
 
+## Signed URL Options
+
+The `signed` array contains all configuration for signed URLs:
+
+### signed.enabled
+
+Enable or disable signed URL functionality.
+
+```php
+'signed' => [
+    'enabled' => env('LARAVEL_MEDIA_SECURE_SIGNED_ENABLED', true),
+],
+```
+
+### signed.prefix
+
+The URL prefix for signed media routes.
+
+```php
+'signed' => [
+    'prefix' => 'media-signed',
+],
+```
+
+Changes the URL from `/media-signed/{type}/{uuid}` to `/{prefix}/{type}/{uuid}`.
+
+### signed.route_name
+
+The named route identifier for signed URLs.
+
+```php
+'signed' => [
+    'route_name' => 'media.signed',
+],
+```
+
+### signed.expiration
+
+Default expiration time for signed URLs in minutes.
+
+```php
+'signed' => [
+    'expiration' => env('LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION', 60),
+],
+```
+
+Common values:
+- `15` - 15 minutes
+- `60` - 1 hour
+- `1440` - 24 hours
+- `10080` - 1 week
+
+### signed.middleware
+
+The middleware stack for signed URL routes.
+
+```php
+'signed' => [
+    'middleware' => [
+        \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateSignedMediaAccess::class,
+    ],
+],
+```
+
 ## Environment Variables
 
 Configure via `.env`:
 
 ```env
+# Authentication & Authorization
 LARAVEL_MEDIA_SECURE_REQUIRE_AUTH=true
 LARAVEL_MEDIA_SECURE_STRICT=true
+
+# Signed URLs
+LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true
+LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60
 ```
 
 ## Next Steps
 
 - [Customizing Middleware](02-middleware.md)
 - [Setting Up Policies](../03-authorization/01-policies.md)
+- [Using Signed URLs](../04-signed-urls/README.md)

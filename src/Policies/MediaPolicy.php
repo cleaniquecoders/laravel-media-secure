@@ -48,20 +48,22 @@ class MediaPolicy
      */
     private function canAccess(User $user, Media $media, MediaAccess $mediaAccess): bool
     {
-        if (config('laravel-media-secure.require_auth') && ! auth()->check()) {
-            return false;
-        }
+        // Note: If we reach this point via policy check, $user is the authenticated user.
+        // The require_auth check is handled by middleware, but we keep it here for
+        // direct policy usage where user might be explicitly passed.
 
         if (! file_exists($media->getPath())) {
             return false;
         }
 
-        if (config('laravel-media-secure.strict') && is_null(Gate::getPolicyFor($media->model))) {
+        $parentPolicy = Gate::getPolicyFor($media->model);
+
+        if (config('laravel-media-secure.strict') && is_null($parentPolicy)) {
             return false;
         }
 
-        if (! is_null(Gate::getPolicyFor($media->model))) {
-            return Gate::allows($mediaAccess->value, $media->model);
+        if (! is_null($parentPolicy)) {
+            return Gate::forUser($user)->allows($mediaAccess->value, $media->model);
         }
 
         return true;

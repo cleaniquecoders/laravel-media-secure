@@ -15,9 +15,12 @@ secure view, download, and stream endpoints with fine-grained access control.
 
 - Secure media URLs with UUID-based routing
 - Three access types: **view**, **download**, and **stream**
+- **Signed URLs** for time-limited access without authentication
 - Authentication requirement (configurable)
 - Policy-based authorization with parent model delegation
 - Customizable middleware stack
+- ETag/Last-Modified caching headers for performance
+- Memory-efficient file streaming for large files
 - Helper functions for URL generation
 
 ## Installation
@@ -34,7 +37,7 @@ php artisan vendor:publish --tag="media-secure-config"
 
 ## Quick Start
 
-### 1. Generate Secure URLs
+### 1. Generate Secure URLs (Authenticated)
 
 ```php
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -49,7 +52,29 @@ $downloadUrl = get_download_media_url($media);
 $streamUrl = get_stream_media_url($media);
 ```
 
-### 2. Create a Policy for Your Model (Required when `strict = true`)
+### 2. Generate Signed URLs (Shareable)
+
+Signed URLs allow sharing media with external users without requiring authentication.
+URLs are cryptographically signed and expire after a configurable time.
+
+```php
+// Generate signed URL (default expiration from config)
+$signedUrl = get_signed_view_url($media);
+
+// Generate signed URL with custom expiration (in minutes)
+$signedUrl = get_signed_download_url($media, 30); // Expires in 30 minutes
+
+// Generate signed URL with DateTime expiration
+$signedUrl = get_signed_stream_url($media, now()->addHours(24));
+
+// Using the Facade
+use CleaniqueCoders\LaravelMediaSecure\Facades\LaravelMediaSecure;
+
+$url = LaravelMediaSecure::signedViewUrl($media);
+$url = LaravelMediaSecure::signedDownloadUrl($media, 60);
+```
+
+### 3. Create a Policy for Your Model (Required when `strict = true`)
 
 ```php
 namespace App\Policies;
@@ -76,13 +101,42 @@ class DocumentPolicy
 }
 ```
 
-### 3. Register the Policy
+### 4. Register the Policy
 
 ```php
 // In AuthServiceProvider
 protected $policies = [
     \App\Models\Document::class => \App\Policies\DocumentPolicy::class,
 ];
+```
+
+## Signed URLs
+
+Signed URLs are perfect for:
+
+- Sharing files via email or messaging
+- Embedding media in external applications
+- Providing temporary access to clients
+- API integrations where authentication is impractical
+
+### Configuration
+
+```php
+// config/laravel-media-secure.php
+
+'signed' => [
+    'enabled' => env('LARAVEL_MEDIA_SECURE_SIGNED_ENABLED', true),
+    'prefix' => 'media-signed',
+    'route_name' => 'media.signed',
+    'expiration' => env('LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION', 60), // minutes
+],
+```
+
+### Environment Variables
+
+```env
+LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true
+LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60
 ```
 
 ## Documentation
@@ -92,6 +146,7 @@ For detailed documentation, see [docs/README.md](docs/README.md).
 - [Getting Started](docs/01-getting-started/README.md)
 - [Configuration](docs/02-configuration/README.md)
 - [Authorization](docs/03-authorization/README.md)
+- [Signed URLs](docs/04-signed-urls/README.md)
 
 ## Testing
 
