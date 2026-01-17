@@ -2,6 +2,224 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## Signed URLs & Performance Improvements - 2026-01-17
+
+### Release Notes - Laravel Media Secure v3.2.0
+
+#### Signed URLs & Performance Improvements
+
+This release introduces **Signed URLs** for sharing media with external users, along with significant performance and
+security improvements.
+
+
+---
+
+#### New Features
+
+##### Signed URLs
+
+Share media files with external users without requiring them to be authenticated. URLs are cryptographically signed using
+your application key and can be configured to expire after a specified time.
+
+  ```php
+  // Generate signed URLs with default expiration (from config)                                                            
+$url = get_signed_view_url($media);                                                                                      
+$url = get_signed_download_url($media);                                                                                  
+$url = get_signed_stream_url($media);                                                                                    
+                                                                                                                         
+// Custom expiration in minutes                                                                                          
+$url = get_signed_view_url($media, 30);        // 30 minutes                                                             
+$url = get_signed_download_url($media, 1440);  // 24 hours                                                               
+                                                                                                                         
+// Custom expiration with DateTime                                                                                       
+$url = get_signed_view_url($media, now()->addWeek());                                                                    
+                                                                                                                         
+// Using the Facade                                                                                                      
+use CleaniqueCoders\LaravelMediaSecure\Facades\LaravelMediaSecure;                                                       
+                                                                                                                         
+$url = LaravelMediaSecure::signedViewUrl($media);                                                                        
+$url = LaravelMediaSecure::signedDownloadUrl($media, 60);                                                                
+
+  ```
+**Use cases:**
+
+- Sharing files via email or messaging
+- Embedding media in external applications
+- Providing temporary access to clients or partners
+- API integrations where authentication is impractical
+
+##### Facade Implementation
+
+The `LaravelMediaSecure` facade now provides a complete API for URL generation, authorization checks, and configuration
+queries:
+
+  ```php
+  use CleaniqueCoders\LaravelMediaSecure\Facades\LaravelMediaSecure;                                                       
+                                                                                                                         
+// URL Generation                                                                                                        
+LaravelMediaSecure::viewUrl($media);                                                                                     
+LaravelMediaSecure::downloadUrl($media);                                                                                 
+LaravelMediaSecure::streamUrl($media);                                                                                   
+                                                                                                                         
+// Signed URL Generation                                                                                                 
+LaravelMediaSecure::signedViewUrl($media);                                                                               
+LaravelMediaSecure::signedDownloadUrl($media, 60);                                                                       
+LaravelMediaSecure::signedStreamUrl($media, now()->addHours(2));                                                         
+                                                                                                                         
+// Authorization Checks                                                                                                  
+LaravelMediaSecure::canView($user, $media);                                                                              
+LaravelMediaSecure::canDownload($user, $media);                                                                          
+LaravelMediaSecure::canStream($user, $media);                                                                            
+                                                                                                                         
+// Configuration                                                                                                         
+LaravelMediaSecure::requiresAuth();                                                                                      
+LaravelMediaSecure::isStrict();                                                                                          
+LaravelMediaSecure::signedUrlsEnabled();                                                                                 
+LaravelMediaSecure::getDefaultExpiration();                                                                              
+
+  ```
+
+---
+
+#### Performance Improvements
+
+##### Memory-Efficient File Streaming
+
+- Replaced `file_get_contents()` with `response()->stream()` for serving files
+- Files are now streamed in 8KB chunks to prevent memory exhaustion with large files
+- Added `Accept-Ranges: bytes` header for future range request support
+
+##### HTTP Caching Headers
+
+- Added `ETag` header based on file path, modification time, and size
+- Added `Last-Modified` header for browser cache validation
+- Added `Cache-Control: private, max-age=3600` for improved performance
+- Returns `304 Not Modified` for conditional requests (`If-None-Match`, `If-Modified-Since`)
+
+
+---
+
+#### Security Enhancements
+
+- Fixed potential null pointer exception when user is not authenticated
+- Added proper 401 response when authentication is required but user is null
+- Added filename sanitization to prevent header injection attacks
+- Signed URLs use Laravel's built-in HMAC-SHA256 signing with your `APP_KEY`
+
+
+---
+
+#### Bug Fixes
+
+- Fixed PHPStan configuration error (`checkMissingIterableValueType` removed)
+- Fixed skipped tests - all media access tests now pass
+- Added proper return types throughout the codebase
+
+
+---
+
+#### Configuration
+
+New `signed` configuration section in `config/laravel-media-secure.php`:
+
+  ```php
+  'signed' => [                                                                                                            
+    'enabled' => env('LARAVEL_MEDIA_SECURE_SIGNED_ENABLED', true),                                                       
+    'prefix' => 'media-signed',                                                                                          
+    'route_name' => 'media.signed',                                                                                      
+    'expiration' => env('LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION', 60),                                                   
+    'middleware' => [                                                                                                    
+        ValidateSignedMediaAccess::class,                                                                                
+    ],                                                                                                                   
+],                                                                                                                       
+
+  ```
+**Environment Variables:**
+
+  ```env
+  LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true                                                                                 
+LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60                                                                                
+
+  ```
+
+---
+
+#### New Helper Functions
+
+  ```php
+  get_signed_media_url(MediaAccess $type, Media $media, $expiration = null)                                                
+get_signed_view_url(Media $media, $expiration = null)                                                                    
+get_signed_download_url(Media $media, $expiration = null)                                                                
+get_signed_stream_url(Media $media, $expiration = null)                                                                  
+
+  ```
+
+---
+
+#### New Files
+
+| File | Description |
+|------|-------------|
+| `src/LaravelMediaSecure.php` | Service class powering the Facade |
+| `src/Http/Middleware/ValidateSignedMediaAccess.php` | Middleware for signed URL validation |
+| `tests/Feature/SignedUrlTest.php` | Comprehensive signed URL tests |
+| `docs/04-signed-urls/README.md` | Signed URL documentation |
+
+
+---
+
+#### Testing
+
+- Added 18 new tests for signed URL functionality
+- All 36 tests passing with 73 assertions
+- Full test coverage for URL generation, access validation, expiration, and caching headers
+
+
+---
+
+#### Documentation
+
+- Updated README with signed URL examples and configuration
+- Added comprehensive signed URL documentation
+- Updated configuration documentation with new options
+- Updated basic usage guide with signed URL examples
+
+
+---
+
+#### Upgrade Guide
+
+1. Update the package:
+
+  ```bash
+  composer update cleaniquecoders/laravel-media-secure                                                                     
+
+  ```
+2. Publish the updated configuration (optional):
+
+  ```bash
+  php artisan vendor:publish --tag="media-secure-config" --force                                                           
+
+  ```
+3. Add environment variables if needed:
+
+  ```env
+  LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true                                                                                 
+LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60                                                                                
+
+  ```
+
+---
+
+#### Breaking Changes
+
+None. This release is fully backward compatible.
+
+
+---
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/v3.1.0...v3.2.0
+
 ## Added Media Access Middleware - 2025-08-24
 
 ### Release Notes - Laravel Media Secure v3.1.0
@@ -45,14 +263,18 @@ This release introduces a significant architectural improvement that enhances se
 ##### Pest PHP Test Suite
 
 - **Converted from PHPUnit to Pest PHP** for modern, readable test syntax
+  
 - **Comprehensive middleware testing** covering all validation scenarios:
+  
   - Access type validation (view/download/stream)
   - Authorization checks with proper user permissions
   - Media attribute injection verification
   - Individual media type handling tests
   
 - **Database integration tests** with proper Media model creation
+  
 - **Gate mocking** for authorization testing
+  
 
 #### 🔒 Security Enhancements
 
@@ -78,6 +300,7 @@ This release introduces a significant architectural improvement that enhances se
 src/Http/Middleware/ValidateMediaAccess.php  # New middleware class
 tests/Feature/MediaMiddlewareTest.php        # Comprehensive Pest tests
 
+
 ```
 ##### Modified Files
 
@@ -85,6 +308,7 @@ tests/Feature/MediaMiddlewareTest.php        # Comprehensive Pest tests
 src/Http/Controllers/MediaController.php     # Simplified controller logic
 config/laravel-media-secure.php            # Enhanced documentation
 routes/web.php                             # Updated middleware stack
+
 
 ```
 #### 🛠️ Migration Guide
@@ -102,6 +326,7 @@ Route::get('media/{type}/{uuid}', MediaController::class)
 Route::get('media/{type}/{uuid}', MediaController::class)
     ->middleware(['auth', 'verified', ValidateMediaAccess::class]);
 
+
 ```
 2. **Register the middleware** in your `app/Http/Kernel.php` if using custom route definitions:
 
@@ -111,11 +336,13 @@ protected $routeMiddleware = [
     'validate-media-access' => \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateMediaAccess::class,
 ];
 
+
 ```
 3. **Update configuration** by republishing the config file:
 
 ```bash
 php artisan vendor:publish --provider="CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecureServiceProvider" --tag="config" --force
+
 
 ```
 #### 📈 Performance Improvements
@@ -173,11 +400,13 @@ You can install the package via composer:
 composer require cleaniquecoders/laravel-media-secure
 
 
+
 ```
 Publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="media-secure-config"
+
 
 
 ```
@@ -242,6 +471,7 @@ class DocumentPolicy
 }
 
 
+
 ```
 > These methods **must be defined** because `MediaPolicy` uses the value from the `MediaAccess` enum to call `Gate::allows($type, $media->model)`.
 
@@ -253,6 +483,7 @@ In your `AuthServiceProvider`:
 protected $policies = [
     \App\Models\Document::class => \App\Policies\DocumentPolicy::class,
 ];
+
 
 
 ```
@@ -287,6 +518,7 @@ $download_url = get_download_media_url($media);
 // Get the stream URL
 // https://your-app.com/media/stream/some-random-uuid
 $stream_url = get_stream_media_url($media);
+
 
 
 ```
