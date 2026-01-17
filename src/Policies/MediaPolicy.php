@@ -45,10 +45,8 @@ class MediaPolicy
     /**
      * Determine whether the user can view, stream or download
      * the model's media.
-     *
-     * @return \Illuminate\Auth\Access\Response|bool
      */
-    private function canAccess(User $user, Media $media, MediaAccess $mediaAccess)
+    private function canAccess(User $user, Media $media, MediaAccess $mediaAccess): bool
     {
         if (config('laravel-media-secure.require_auth') && ! auth()->check()) {
             return false;

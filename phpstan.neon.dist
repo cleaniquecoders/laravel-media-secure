@@ -3,10 +3,6 @@ includes:
 
 parameters:
     level: 4
-    ignoreErrors:
-        -
-            message: '#Method CleaniqueCoders\\LaravelMediaSecure\\Http\\Controllers\\MediaController::__invoke\(\) should return Illuminate\\Http\\Response but returns Symfony\\Component\\HttpFoundation\\BinaryFileResponse.#'
-            path: src/Http/Controllers/MediaController.php
     paths:
         - config
         - routes
@@ -15,4 +11,7 @@ parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
     checkModelProperties: true
-    checkMissingIterableValueType: false
+    ignoreErrors:
+        # env() calls in package config files are expected - they get published to the app's config directory
+        - identifier: larastan.noEnvCallsOutsideOfConfig
+          path: config/*

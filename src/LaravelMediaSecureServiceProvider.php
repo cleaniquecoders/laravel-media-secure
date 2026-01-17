@@ -21,7 +21,14 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
             ->hasRoute('web');
     }
 
-    public function bootingPackage()
+    public function registeringPackage(): void
+    {
+        $this->app->singleton(LaravelMediaSecure::class, function () {
+            return new LaravelMediaSecure;
+        });
+    }
+
+    public function bootingPackage(): void
     {
         Gate::policy(
             config('laravel-media-secure.model'),
@@ -31,7 +38,7 @@ class LaravelMediaSecureServiceProvider extends PackageServiceProvider
         $this->registerMiddleware();
     }
 
-    protected function registerMiddleware()
+    protected function registerMiddleware(): void
     {
         $router = $this->app['router'];
 

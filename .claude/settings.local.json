@@ -1,7 +1,12 @@
 {
   "permissions": {
     "allow": [
-      "Bash(markdownlint:*)"
+      "Bash(markdownlint:*)",
+      "Bash(composer test:*)",
+      "Bash(composer analyse:*)",
+      "Bash(find:*)",
+      "Bash(composer show:*)",
+      "Bash(composer format:*)"
     ]
   }
 }

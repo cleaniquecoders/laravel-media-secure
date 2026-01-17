@@ -19,6 +19,15 @@ beforeEach(function () {
     }
 
     Route::get('/login', fn () => 'login')->name('login');
+
+    // Disable strict mode for testing (no parent model policy required)
+    config()->set('laravel-media-secure.strict', false);
+
+    // Use simpler middleware for testing (no email verification required)
+    config()->set('laravel-media-secure.middleware', [
+        'auth',
+        \CleaniqueCoders\LaravelMediaSecure\Http\Middleware\ValidateMediaAccess::class,
+    ]);
 });
 
 it('cannot view media if not logged in', function () {
@@ -53,7 +62,7 @@ it('cannot view media if media do not exist', function () {
 it('cannot download media if media do not exist', function () {
     login()
         ->get(route('media', [
-            'type' => MediaAccess::VIEW->value,
+            'type' => MediaAccess::DOWNLOAD->value,
             'uuid' => '123asd',
         ]))->assertStatus(404);
 })->group('download');
@@ -69,36 +78,61 @@ it('cannot stream media if media do not exist', function () {
 it('can view media if media do exist', function () {
     $user = user();
     $media = media($user);
-    login($user)
+
+    expect($media)->not->toBeNull();
+    expect($media->uuid)->not->toBeEmpty();
+    expect(file_exists($media->getPath()))->toBeTrue();
+
+    $response = login($user)
         ->get(route('media', [
             'type' => MediaAccess::VIEW->value,
             'uuid' => $media->uuid,
-        ]))->assertStatus(200);
-})->group('view')->skip('The test unable to add media at the moment.');
+        ]));
+
+    $response->assertStatus(200);
+
+    // Content-Type may include charset suffix (e.g., "text/plain; charset=UTF-8")
+    $contentType = $response->headers->get('Content-Type');
+    expect($contentType)->toStartWith($media->mime_type);
+})->group('view');
 
 it('can download media if media do exist', function () {
     $user = user();
     $media = media($user);
 
-    // Make sure media was created successfully
     expect($media)->not->toBeNull();
+    expect($media->uuid)->not->toBeEmpty();
+    expect(file_exists($media->getPath()))->toBeTrue();
 
     login($user)
         ->get(route('media', [
-            'type' => MediaAccess::DOWNLOAD->value,  // Changed from view to download
+            'type' => MediaAccess::DOWNLOAD->value,
             'uuid' => $media->uuid,
-        ]))->assertStatus(200);
-})->group('download')->skip('The test unable to add media at the moment.');
+        ]))
+        ->assertStatus(200)
+        ->assertHeader('Content-Disposition');
+})->group('download');
 
 it('can stream media if media do exist', function () {
     $user = user();
     $media = media($user);
-    login($user)
+
+    expect($media)->not->toBeNull();
+    expect($media->uuid)->not->toBeEmpty();
+    expect(file_exists($media->getPath()))->toBeTrue();
+
+    $response = login($user)
         ->get(route('media', [
-            'type' => MediaAccess::VIEW->value,
+            'type' => MediaAccess::STREAM->value,
             'uuid' => $media->uuid,
-        ]))->assertStatus(200);
-})->group('stream')->skip('The test unable to add media at the moment.');
+        ]));
+
+    $response->assertStatus(200);
+
+    // Content-Type may include charset suffix (e.g., "text/plain; charset=UTF-8")
+    $contentType = $response->headers->get('Content-Type');
+    expect($contentType)->toStartWith($media->mime_type);
+})->group('stream');
 
 it('has helpers', function () {
     assertTrue(function_exists('get_media_url'));
@@ -106,3 +140,27 @@ it('has helpers', function () {
     assertTrue(function_exists('get_download_media_url'));
     assertTrue(function_exists('get_stream_media_url'));
 });
+
+it('returns 422 for invalid access type', function () {
+    login()
+        ->get(route('media', [
+            'type' => 'invalid-type',
+            'uuid' => '123asd',
+        ]))->assertStatus(422);
+})->group('validation');
+
+it('returns correct ETag header for caching', function () {
+    $user = user();
+    $media = media($user);
+
+    $response = login($user)
+        ->get(route('media', [
+            'type' => MediaAccess::VIEW->value,
+            'uuid' => $media->uuid,
+        ]));
+
+    $response->assertStatus(200)
+        ->assertHeader('ETag')
+        ->assertHeader('Last-Modified')
+        ->assertHeader('Cache-Control');
+})->group('caching');
