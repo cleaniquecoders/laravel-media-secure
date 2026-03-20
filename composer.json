@@ -1,79 +1,79 @@
 {
-  "name": "cleaniquecoders/laravel-media-secure",
-  "description": "Securely display Media",
-  "keywords": [
-    "cleaniquecoders",
-    "laravel",
-    "laravel-media-secure"
-  ],
-  "homepage": "https://github.com/cleaniquecoders/laravel-media-secure",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Nasrul Hazim Bin Mohamad",
-      "email": "nasrulhazim.m@gmail.com",
-      "role": "Developer"
-    }
-  ],
-  "require": {
-    "php": "^8.2 | ^8.3 | ^8.4",
-    "cleaniquecoders/traitify": "^1.1",
-    "illuminate/contracts": "^11.0 | ^12.0",
-    "spatie/laravel-medialibrary": "^10.5 | ^11.5",
-    "spatie/laravel-package-tools": "^1.14.0"
-  },
-  "require-dev": {
-    "driftingly/rector-laravel": "^1.2 | ^2.0",
-    "larastan/larastan": "^2.9 | ^3.6",
-    "laravel/pint": "^1.0",
-    "nunomaduro/collision": "^8.0",
-    "orchestra/testbench": "^9.0 | ^10.0",
-    "pestphp/pest": "^3.0",
-    "pestphp/pest-plugin-laravel": "^3.0",
-    "phpstan/extension-installer": "^1.1",
-    "phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
-    "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
-    "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "CleaniqueCoders\\LaravelMediaSecure\\": "src",
-      "CleaniqueCoders\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
+    "name": "cleaniquecoders/laravel-media-secure",
+    "description": "Securely display Media",
+    "keywords": [
+        "cleaniquecoders",
+        "laravel",
+        "laravel-media-secure"
+    ],
+    "homepage": "https://github.com/cleaniquecoders/laravel-media-secure",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nasrul Hazim Bin Mohamad",
+            "email": "nasrulhazim.m@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2 | ^8.3 | ^8.4",
+        "cleaniquecoders/traitify": "^1.1",
+        "illuminate/contracts": "^11.0 | ^12.0 | ^13.0",
+        "spatie/laravel-medialibrary": "^10.5 | ^11.5",
+        "spatie/laravel-package-tools": "^1.14.0"
     },
-    "files": [
-      "support/helpers.php"
-    ]
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "CleaniqueCoders\\LaravelMediaSecure\\Tests\\": "tests"
-    }
-  },
-  "scripts": {
-    "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
-    "analyse": "vendor/bin/phpstan analyse",
-    "test": "vendor/bin/pest",
-    "test-coverage": "vendor/bin/pest --coverage",
-    "format": "vendor/bin/pint",
-    "rector": "vendor/bin/rector process"
-  },
-  "config": {
-    "sort-packages": true,
-    "allow-plugins": {
-      "pestphp/pest-plugin": true,
-      "phpstan/extension-installer": true
-    }
-  },
-  "extra": {
-    "laravel": {
-      "providers": [
-        "CleaniqueCoders\\LaravelMediaSecure\\LaravelMediaSecureServiceProvider"
-      ],
-      "aliases": {
-        "LaravelMediaSecure": "CleaniqueCoders\\LaravelMediaSecure\\Facades\\LaravelMediaSecure"
-      }
-    }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "require-dev": {
+        "driftingly/rector-laravel": "^1.2 | ^2.0",
+        "larastan/larastan": "^2.9 | ^3.6",
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^8.0",
+        "orchestra/testbench": "^9.0 | ^10.0 | ^11.0",
+        "pestphp/pest": "^3.0||^4.0",
+        "pestphp/pest-plugin-laravel": "^3.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
+        "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
+        "phpunit/phpunit": "^10.5 || ^11.0 || ^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "CleaniqueCoders\\LaravelMediaSecure\\": "src",
+            "CleaniqueCoders\\LaravelMediaSecure\\Database\\Factories\\": "database/factories"
+        },
+        "files": [
+            "support/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CleaniqueCoders\\LaravelMediaSecure\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint",
+        "rector": "vendor/bin/rector process"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CleaniqueCoders\\LaravelMediaSecure\\LaravelMediaSecureServiceProvider"
+            ],
+            "aliases": {
+                "LaravelMediaSecure": "CleaniqueCoders\\LaravelMediaSecure\\Facades\\LaravelMediaSecure"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
