@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-media-secure` will be documented in this file.
 
+## 3.3.0 - 2026-03-30
+
+### What's Changed
+
+#### Added
+
+- Laravel 13 support (`illuminate/contracts: ^13.0`)
+- PHPUnit 12 compatibility
+- Pest 4 support
+
+#### Changed
+
+- Updated `phpunit.xml.dist` — removed deprecated PHPUnit 10 attributes
+- Updated CI workflow for Laravel 12 matrix
+- Updated dev dependencies (larastan ^3.0, phpstan plugins ^2.0)
+
+**Full Changelog**: https://github.com/cleaniquecoders/laravel-media-secure/compare/3.2.0...3.3.0
+
 ## Signed URLs & Performance Improvements - 2026-01-17
 
 ### Release Notes - Laravel Media Secure v3.2.0
@@ -26,19 +44,20 @@ your application key and can be configured to expire after a specified time.
 $url = get_signed_view_url($media);                                                                                      
 $url = get_signed_download_url($media);                                                                                  
 $url = get_signed_stream_url($media);                                                                                    
-                                                                                                                         
+                                                                                                                       
 // Custom expiration in minutes                                                                                          
 $url = get_signed_view_url($media, 30);        // 30 minutes                                                             
 $url = get_signed_download_url($media, 1440);  // 24 hours                                                               
-                                                                                                                         
+                                                                                                                       
 // Custom expiration with DateTime                                                                                       
 $url = get_signed_view_url($media, now()->addWeek());                                                                    
-                                                                                                                         
+                                                                                                                       
 // Using the Facade                                                                                                      
 use CleaniqueCoders\LaravelMediaSecure\Facades\LaravelMediaSecure;                                                       
-                                                                                                                         
+                                                                                                                       
 $url = LaravelMediaSecure::signedViewUrl($media);                                                                        
 $url = LaravelMediaSecure::signedDownloadUrl($media, 60);                                                                
+
 
   ```
 **Use cases:**
@@ -55,27 +74,28 @@ queries:
 
   ```php
   use CleaniqueCoders\LaravelMediaSecure\Facades\LaravelMediaSecure;                                                       
-                                                                                                                         
+                                                                                                                       
 // URL Generation                                                                                                        
 LaravelMediaSecure::viewUrl($media);                                                                                     
 LaravelMediaSecure::downloadUrl($media);                                                                                 
 LaravelMediaSecure::streamUrl($media);                                                                                   
-                                                                                                                         
+                                                                                                                       
 // Signed URL Generation                                                                                                 
 LaravelMediaSecure::signedViewUrl($media);                                                                               
 LaravelMediaSecure::signedDownloadUrl($media, 60);                                                                       
 LaravelMediaSecure::signedStreamUrl($media, now()->addHours(2));                                                         
-                                                                                                                         
+                                                                                                                       
 // Authorization Checks                                                                                                  
 LaravelMediaSecure::canView($user, $media);                                                                              
 LaravelMediaSecure::canDownload($user, $media);                                                                          
 LaravelMediaSecure::canStream($user, $media);                                                                            
-                                                                                                                         
+                                                                                                                       
 // Configuration                                                                                                         
 LaravelMediaSecure::requiresAuth();                                                                                      
 LaravelMediaSecure::isStrict();                                                                                          
 LaravelMediaSecure::signedUrlsEnabled();                                                                                 
 LaravelMediaSecure::getDefaultExpiration();                                                                              
+
 
   ```
 
@@ -124,14 +144,15 @@ New `signed` configuration section in `config/laravel-media-secure.php`:
 
   ```php
   'signed' => [                                                                                                            
-    'enabled' => env('LARAVEL_MEDIA_SECURE_SIGNED_ENABLED', true),                                                       
-    'prefix' => 'media-signed',                                                                                          
-    'route_name' => 'media.signed',                                                                                      
-    'expiration' => env('LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION', 60),                                                   
-    'middleware' => [                                                                                                    
-        ValidateSignedMediaAccess::class,                                                                                
-    ],                                                                                                                   
+  'enabled' => env('LARAVEL_MEDIA_SECURE_SIGNED_ENABLED', true),                                                       
+  'prefix' => 'media-signed',                                                                                          
+  'route_name' => 'media.signed',                                                                                      
+  'expiration' => env('LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION', 60),                                                   
+  'middleware' => [                                                                                                    
+      ValidateSignedMediaAccess::class,                                                                                
+  ],                                                                                                                   
 ],                                                                                                                       
+
 
   ```
 **Environment Variables:**
@@ -139,6 +160,7 @@ New `signed` configuration section in `config/laravel-media-secure.php`:
   ```env
   LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true                                                                                 
 LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60                                                                                
+
 
   ```
 
@@ -151,6 +173,7 @@ LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60
 get_signed_view_url(Media $media, $expiration = null)                                                                    
 get_signed_download_url(Media $media, $expiration = null)                                                                
 get_signed_stream_url(Media $media, $expiration = null)                                                                  
+
 
   ```
 
@@ -194,11 +217,13 @@ get_signed_stream_url(Media $media, $expiration = null)
   ```bash
   composer update cleaniquecoders/laravel-media-secure                                                                     
 
+
   ```
 2. Publish the updated configuration (optional):
 
   ```bash
   php artisan vendor:publish --tag="media-secure-config" --force                                                           
+
 
   ```
 3. Add environment variables if needed:
@@ -206,6 +231,7 @@ get_signed_stream_url(Media $media, $expiration = null)
   ```env
   LARAVEL_MEDIA_SECURE_SIGNED_ENABLED=true                                                                                 
 LARAVEL_MEDIA_SECURE_SIGNED_EXPIRATION=60                                                                                
+
 
   ```
 
@@ -301,6 +327,7 @@ src/Http/Middleware/ValidateMediaAccess.php  # New middleware class
 tests/Feature/MediaMiddlewareTest.php        # Comprehensive Pest tests
 
 
+
 ```
 ##### Modified Files
 
@@ -308,6 +335,7 @@ tests/Feature/MediaMiddlewareTest.php        # Comprehensive Pest tests
 src/Http/Controllers/MediaController.php     # Simplified controller logic
 config/laravel-media-secure.php            # Enhanced documentation
 routes/web.php                             # Updated middleware stack
+
 
 
 ```
@@ -327,6 +355,7 @@ Route::get('media/{type}/{uuid}', MediaController::class)
     ->middleware(['auth', 'verified', ValidateMediaAccess::class]);
 
 
+
 ```
 2. **Register the middleware** in your `app/Http/Kernel.php` if using custom route definitions:
 
@@ -337,11 +366,13 @@ protected $routeMiddleware = [
 ];
 
 
+
 ```
 3. **Update configuration** by republishing the config file:
 
 ```bash
 php artisan vendor:publish --provider="CleaniqueCoders\LaravelMediaSecure\LaravelMediaSecureServiceProvider" --tag="config" --force
+
 
 
 ```
@@ -401,11 +432,13 @@ composer require cleaniquecoders/laravel-media-secure
 
 
 
+
 ```
 Publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="media-secure-config"
+
 
 
 
@@ -472,6 +505,7 @@ class DocumentPolicy
 
 
 
+
 ```
 > These methods **must be defined** because `MediaPolicy` uses the value from the `MediaAccess` enum to call `Gate::allows($type, $media->model)`.
 
@@ -483,6 +517,7 @@ In your `AuthServiceProvider`:
 protected $policies = [
     \App\Models\Document::class => \App\Policies\DocumentPolicy::class,
 ];
+
 
 
 
@@ -518,6 +553,7 @@ $download_url = get_download_media_url($media);
 // Get the stream URL
 // https://your-app.com/media/stream/some-random-uuid
 $stream_url = get_stream_media_url($media);
+
 
 
 
