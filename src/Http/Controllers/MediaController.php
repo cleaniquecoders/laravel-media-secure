@@ -3,7 +3,9 @@
 namespace CleaniqueCoders\LaravelMediaSecure\Http\Controllers;
 
 use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
+use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -24,15 +26,17 @@ class MediaController extends Controller
             abort(422, 'Invalid media request');
         }
 
-        $path = $media->getPath();
+        // Resolve through the media disk so non-local disks (e.g. S3) work
+        $disk = Storage::disk($media->disk);
+        $path = $media->getPathRelativeToRoot();
 
-        if (! file_exists($path)) {
+        if (! $disk->exists($path)) {
             abort(404, 'Media file not found');
         }
 
         // Generate ETag based on file modification time and size
-        $lastModified = filemtime($path);
-        $fileSize = filesize($path);
+        $lastModified = $disk->lastModified($path);
+        $fileSize = $disk->size($path);
         $etag = md5($path.$lastModified.$fileSize);
 
         // Check for conditional requests (browser caching)
@@ -54,11 +58,11 @@ class MediaController extends Controller
         ];
 
         if ($type === MediaAccess::DOWNLOAD->value) {
-            return response()->download($path, $safeFileName, $cacheHeaders);
+            return $disk->download($path, $safeFileName, $cacheHeaders);
         }
 
         if ($type === MediaAccess::VIEW->value || $type === MediaAccess::STREAM->value) {
-            return $this->streamFile($path, $media->mime_type, $safeFileName, $cacheHeaders);
+            return $this->streamFile($disk, $path, $fileSize, $media->mime_type, $safeFileName, $cacheHeaders);
         }
 
         abort(422, 'Invalid media request');
@@ -67,10 +71,8 @@ class MediaController extends Controller
     /**
      * Stream a file using chunked transfer to avoid memory issues with large files.
      */
-    protected function streamFile(string $path, string $mimeType, string $fileName, array $cacheHeaders): StreamedResponse
+    protected function streamFile(Filesystem $disk, string $path, int $fileSize, string $mimeType, string $fileName, array $cacheHeaders): StreamedResponse
     {
-        $fileSize = filesize($path);
-
         $headers = array_merge([
             'Content-Type' => $mimeType,
             'Content-Disposition' => 'inline; filename="'.$fileName.'"',
@@ -78,10 +80,10 @@ class MediaController extends Controller
             'Accept-Ranges' => 'bytes',
         ], $cacheHeaders);
 
-        return response()->stream(function () use ($path) {
-            $stream = fopen($path, 'rb');
+        return response()->stream(function () use ($disk, $path) {
+            $stream = $disk->readStream($path);
 
-            if ($stream === false) {
+            if (! is_resource($stream)) {
                 return;
             }
 

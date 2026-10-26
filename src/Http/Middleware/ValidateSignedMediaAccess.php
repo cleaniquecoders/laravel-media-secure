@@ -5,6 +5,7 @@ namespace CleaniqueCoders\LaravelMediaSecure\Http\Middleware;
 use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
 
 class ValidateSignedMediaAccess
@@ -34,7 +35,7 @@ class ValidateSignedMediaAccess
         $media = config('laravel-media-secure.model')::whereUuid($uuid)->firstOrFail();
 
         // Verify the file exists
-        if (! file_exists($media->getPath())) {
+        if (! Storage::disk($media->disk)->exists($media->getPathRelativeToRoot())) {
             abort(404, 'Media file not found.');
         }
 

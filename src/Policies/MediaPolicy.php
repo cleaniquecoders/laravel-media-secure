@@ -4,8 +4,10 @@ namespace CleaniqueCoders\LaravelMediaSecure\Policies;
 
 use CleaniqueCoders\LaravelMediaSecure\Enums\MediaAccess;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaPolicy
@@ -15,7 +17,7 @@ class MediaPolicy
     /**
      * Determine whether the user can view the model's media.
      *
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function view(User $user, Media $media)
     {
@@ -25,7 +27,7 @@ class MediaPolicy
     /**
      * Determine whether the user can stream the model's media.
      *
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function stream(User $user, Media $media)
     {
@@ -35,7 +37,7 @@ class MediaPolicy
     /**
      * Determine whether the user can download the model's media.
      *
-     * @return \Illuminate\Auth\Access\Response|bool
+     * @return Response|bool
      */
     public function download(User $user, Media $media)
     {
@@ -52,7 +54,7 @@ class MediaPolicy
         // The require_auth check is handled by middleware, but we keep it here for
         // direct policy usage where user might be explicitly passed.
 
-        if (! file_exists($media->getPath())) {
+        if (! Storage::disk($media->disk)->exists($media->getPathRelativeToRoot())) {
             return false;
         }
 
